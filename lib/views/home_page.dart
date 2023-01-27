@@ -49,20 +49,31 @@ class _MyHomePageState extends State<MyHomePage> {
   //   FlutterDownloader.registerCallback(downloadingCallback);
   // }
 
-  // Future Download(String url, String title) async {
-  //   try {
-  //     //new Approach
-  //     var id = await ImageDownloader.downloadImage(
-  //         'https://upload.wikimedia.org/wikipedia/commons/6/60/The_Organ_at_Arches_National_Park_Utah_Corrected.jpg');
-  //     if (id != null) {
-  //       print('Image is saved $id');
-  //     }
-  //     return 'success';
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
+//   Future Download(String url, String title) async {
+//     try {
+//       //new Approach
+//       var id = await ImageDownloader.downloadImage(
+//           'https://upload.wikimedia.org/wikipedia/commons/6/60/The_Organ_at_Arches_National_Park_Utah_Corrected.jpg');
+//       if (id != null) {
+//         print('Image is saved $id');
+//       }
+//       return 'success';
+//     } catch (e) {
+//       print(e);
+//     }
+//   }
+   Future Download(String url, String title) async {
+    try {
+      //new Approach
+      var id = await ImageDownloader.downloadImage(url);
+      if (id != null) {
+        print('Image is saved ${id}');
+      }
+      return 'success';
+    } catch (e) {
+      print(e);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     UserDataSource userDataSource = UserDataSource();
@@ -103,29 +114,31 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         IconButton(
                             onPressed: () async {
-                              dynamic list =
-                                  (usersList[index].thumbnailUrl.toString());
-                              List<File> files = [];
-                              for (var url in list) {
-                                try {
-                                  var ImageId =
-                                      await ImageDownloader.downloadImage(
-                                          url,
-                                          destination: AndroidDestinationType
-                                              .directoryDownloads
-                                            ..subDirectory(
-                                                "flutter_downloader"));
-                                  var path = await ImageDownloader.findPath(
-                                      ImageId.toString());
-                                  await ImageDownloader.open(path.toString());
-                                  files.add(File(path.toString()));
-                                } catch (e) {
-                                  print(e);
-                                }
-                                setState(() {
-                                  progress = 100;
-                                });
-                              }
+                              await Download(userList[index].thumbnailUrl.toString(),userList[index].id.toString());
+//                               dynamic list =
+//                                   (usersList[index].thumbnailUrl.toString());
+//                               List<File> files = [];
+//                               for (var url in list) {
+//                                 try {
+//                                   var ImageId =
+//                                       await ImageDownloader.downloadImage(
+//                                           url,
+//                                           destination: AndroidDestinationType
+//                                               .directoryDownloads
+//                                             ..subDirectory(
+//                                                 "flutter_downloader"));
+//                                   var path = await ImageDownloader.findPath(
+//                                       ImageId.toString());
+//                                   await ImageDownloader.open(path.toString());
+//                                   files.add(File(path.toString()));
+//                                 } catch (e) {
+//                                   print(e);
+//                                 }
+//                                 setState(() {
+//                                   progress = 100;
+//                                 });
+//                               }
+                              
                             },
                             icon: const Icon(Icons.download))
                       ],
